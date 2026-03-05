@@ -1,18 +1,32 @@
-#ifndef EASYFIND_HPP
-#define EASYFIND_HPP
+#ifndef SPAN_HPP
+#define SPAN_HPP
 
-#include <algorithm>
+#include <vector>
 #include <stdexcept>
+#include <climits>
+#include <algorithm>
 
-template <typename T>
-typename T::iterator easyfind(T &a, int target)
-{
-    typename T::iterator result;
+class Span {
+    private:
+        unsigned int    _maxSize;
+        std::vector<int> _numbers;
+    public:
+        Span();
+        Span(unsigned int n);
+        Span(const Span &other);
+        Span &operator=(const Span &other);
+        ~Span();
 
-    result = std::find(a.begin(), a.end(), target);
-    if (result == a.end())
-        throw std::runtime_error("element not found");
-    return result;
-}
+        void    addNumber(int n);
+        int     shortestSpan();
+        int     longestSpan();
+		template <typename Iterator>
+		void addRange(Iterator begin, Iterator end)
+		{
+    		if (_numbers.size() + std::distance(begin, end) > _maxSize)
+        		throw std::runtime_error("Range excede o limite");
+    		_numbers.insert(_numbers.end(), begin, end);
+		}
+};
 
 #endif
